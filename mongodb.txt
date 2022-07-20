@@ -80,3 +80,89 @@ db = client.test
 
 
 - Now check the uploaded data in the database in the 'browse collection' section.
+
+
+
+
+
+
+
+
+
+-------- CRUD Operations ----------
+* See mongotest.py file
+
+
+- MongoDB is schema less. It is a document database in which one collection holds different documents.
+- There may be difference between number of fields, content and size of the document from one to other.
+- Structure of a single object is clear in MongoDB.
+- There are no complex joins in MongoDB.
+
+
+-- Where MongoDB should be used?
+- Big and complex data
+- Mobile and social infrastructure
+- Content management and delivery
+- User data management
+- Data hub
+
+In the RDBMS, we have multiple schema and in each schema we create tables to store data while, MongoDB is a document oriented database in which data is written in BSON format which is a JSON like format.
+
+
+-- Create database:
+- There is no create database command in MongoDB.
+- Here, in MongoDB we don't need to create a database manually because MongoDB will create it automatically when we save the value into the defined collection at first time.
+- If there is no existing database, the following command is used to create a new database.
+
+Syntax:
+use DATABASE_NAME
+
+If the database already exists, it will return the existing database.
+
+- To check the currently selected database, use the command 'db'.
+- To check the database list, use the command 'show dbs'.
+
+
+-- Delete database:
+- The dropDatabase command is used to drop a database. It also deletes the associated data files. It operates on the current database.
+
+Syntax:
+db.dropDatabase()
+
+In the case you have not selected any database, it will delete default "test" database.
+
+
+-- Create collection:
+- In MongoDB, 'db.createCollection(name, options)' is used to create collection. MongoDB creates collection automatically when we insert some documents.
+
+Syntax:
+db.createCollection(name, options)
+
+Here,
+Name: is a string type, specifies the name of the collection to be created.
+Options: is a document type, specifies the memory size and indexing of the collection. It is an optional parameter.
+
+- To check the created collection, use the command "show collections".
+- To see the inserted document, use the find() command.
+
+Syntax:
+db.collection_name.find()
+
+
+-- Delete collections:
+- In MongoDB, db.collection.drop() method is used to drop a collection from a database. It completely removes a collection from the database and does not leave any indexes associated with the dropped collections.
+- The db.collection.drop() method does not take any argument and produce an error when it is called with an argument. This method removes all the indexes associated with the dropped collection.
+
+Syntax:
+db.collection_name.drop()
+
+
+
+-- Insert documents:
+- In MongoDB, the 'db.collection.insert()' method is used to add or insert new documents into a collection in the database.
+- There are also two methods "db.collection.update()" method and "db.collection.save()" method used for the same purpose. These methods add new documents through an operation called upsert.
+
+Syntax:
+db.collection_name.insert(document)
+
+## Let's create a database named 'ineuron_FSDS' and insert a document inside it. See in mongotest.py file:
