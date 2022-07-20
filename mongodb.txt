@@ -1,0 +1,82 @@
+
+1st step:
+- Create an account in MongoDb Atlas using the Google account. Here I am signing in using my primary account. It is a cloud based setup for the MongoDB database.
+link is: https://www.mongodb.com/atlas/database
+or
+https://www.mongodb.com/cloud/atlas/lp/try2?utm_content=rlsavisitor&utm_source=google&utm_campaign=gs_apac_rlsamulti_search_core_brand_atlas_desktop_rlsa&utm_term=mongodb%20atlas&utm_medium=cpc_paid_search&utm_ad=e&utm_ad_campaign_id=14412646476&adgroup=131761130772&gclid=CjwKCAjw5s6WBhA4EiwACGncZbeMorUtSn7K87hqTMoUho7MwaS5lsM8IgleM3PS8X-pbc62oYEkCxoCix4QAvD_BwE
+
+
+
+
+2nd step:
+- Click on "Create a Database" option on the 'Database Deployment' page.
+- Choose the Free/Shared option, click on 'Create' option.
+- Now on the 'Create a Shared Cluster' page the MongoDB automatically gives us a space and 'cloud provider & region' by default, but we can select our own provider and region.
+
+'aws' - Cloud
+'Mumbai(ap-south-1)' - Region
+'Cluster0' - Cluster name (we can give any system name according to our choice)
+
+- Remember always select a region that is the nearest one, as in this case it is "Mumbai" as I am in India. As we can select any region but the nearest one will enhance the speed as there is less distance to travel for the data post and retrieved by the end users. So always select region based on the location of our end users.
+- By default we will be allotted with the "M0 Sandbox"(as it is free forever), as our 'Cluster Tier' i.e. the virtual machine.
+- Select the 'Create Cluster' option.
+- Now we need to create a 'Username and Password', remember it as it will be needed later for connecting with the database and don't use any special characters in it as they create problems specially the '@'.
+- For production grade application the 'Certificate' option is used.
+
+Username - ineuron
+Password - Project1
+IP Address - 0.0.0.0/0 (this way it will be able to configure with the local system, i.e. from any system it can be accessed)
+Description - local
+
+- Now we need to provide the ip addresses, so they can connect with the database. Now select 'Add Entry' option to whitelist the ip addresses. Now select 'Finish and Close'.
+
+
+
+3rd step:
+- After sometime the clusters will be created, and they are up and running. The check in process is that the green button beside the cluster name will be shown means that the cluster is active.
+- Now select the 'Connect' option.
+- Now select the "Connect your application" option.
+- Now select the 'driver and version' according to the programming language used in the application we want to store in MongoDB.
+- Then check the option in 'include full driver code example'. Copy the code and paste it in somewhere safely to reuse it. Now close it.
+
+Driver - python
+Version - 3.6 or later
+Code:
+client = pymongo.MongoClient("mongodb+srv://ineuron:<password>@cluster0.rp4qzrr.mongodb.net/?retryWrites=true&w=majority")
+db = client.test
+
+- This is the url with the help of which we will be able to connect with the database. Replace the <password> in the url with the mongodb password we have created during the creation of the cluster, so the final code will be like following:
+
+client = pymongo.MongoClient("mongodb+srv://ineuron:Project1@cluster0.rp4qzrr.mongodb.net/?retryWrites=true&w=majority")
+db = client.test
+
+- So now this is the final url to connect with the MongoDB.
+- Here the database setup is concluded.
+
+
+
+
+- Now in the application:
+- Create a project(mongodb_atlas) in pycharm with the same python version of the MongoDB cluster we have selected.
+- Now we need to install 'pymongo' in the file(mongo.py) of that project as it doesn't have the library. For this use the command in the 'Command Prompt' and not in the 'Windows Powershell'.
+
+pip install pymongo
+
+- Now copy the url we got and put it in the file to make connection. Here the url works as the 'localhost' in MySQL.
+- Now if we run the program we will get an error that it is blocking the DNS server from my current location.
+- We also need to install another package to remove the blockage to our DNS Server. Do the installation in same way in the Command Prompt.
+
+pip install "pymongo[srv]"
+
+- After installing now if we execute the code it will succeed. Check in process for success is:
+
+Process finished with exit code 0
+
+- Here the advantage of using a cloud based system is that now if we share the url then anyone can hit the server located in that url.
+- Also remember sometime when we try to upload data to the database it throws an error named 'ATLASERROR' to avoid that simply change the "" around the connector url to ''. So the new url will look like this:
+
+client = pymongo.MongoClient('mongodb+srv://ineuron:Project1@cluster0.rp4qzrr.mongodb.net/?retryWrites=true&w=majority')
+db = client.test
+
+
+- Now check the uploaded data in the database in the 'browse collection' section.
