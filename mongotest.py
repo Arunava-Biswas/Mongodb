@@ -28,5 +28,9 @@ students = var1['test']
 # inserting the data
 students.insert_one(student)
 
-# to see the result
+# to see the result (single result)
 pprint.pprint(students.find_one())
+
+# to see multiple results in one go
+for result in (students.find()):
+    print(result)

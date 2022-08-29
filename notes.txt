@@ -1,0 +1,3 @@
+- nosql means Not Only SQL.
+- MongoDb can store document based data i.e. JSON or Dictionary format.
+- In one single collection we are able to store different kinds of documents, so we don't need to care about the schema of the collection as we needed to do for Table in case of MySQL.

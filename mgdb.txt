@@ -1,0 +1,192 @@
+- In MySQL if we want to create a new column for a particular row then we need to create an entire new table for that but in MongoDB on adhoc basis we can change the structure of the document(record) of a particular collection.
+- Here also we can create many collections under a single database as we can create multiple tables under a single database in MySQL.
+
+- First we will need 'pymongo' library.
+- The 'MongoClient()' of 'pymongo' will allow to connect directly with the connection url.
+
+We need to install the following libraries:
+pip install pymongo
+pip install "pymongo[srv]"
+
+- Syntax is:
+pymongo.MongoClient(url)
+
+
+Code:
+
+import pymongo
+client = pymongo.MongoClient("mongodb+srv://test:test@cluster0.he6iz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+
+
+
+- Let's create a database, for this we will use the client i.e. the connection, and we will pass the database_name in [].
+
+- Syntax is:
+dataBase = client[database_name]
+
+
+Code:
+
+DEFAULT_CONNECTION_URL= "mongodb+srv://test:test@cluster0.he6iz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+DB_NAME = "iNeuron"
+
+# Establish a connection with mongoDB
+client = pymongo.MongoClient(DEFAULT_CONNECTION_URL)
+
+# Create a DB
+dataBase = client[DB_NAME]
+
+
+
+- But remember until and unless there is any collection inside that database it will not be shown. So to visualize a created database we need to put some document inside it.
+- Here collection is equivalent to a table in MySQL though the format is different.
+
+- Syntax is:
+collection = dataBase[COLLECTION_NAME]
+
+
+Code:
+
+COLLECTION_NAME = "iNeuron_Products"
+collection = dataBase[COLLECTION_NAME]
+
+
+
+- Now to write a data inside a database we need to create a record. Here we need to dump data as a collection. Now as in python the Dictionary is a collection of key:value pair data we can use that format.
+- So whenever we need to pass some data inside a MongoDB we need to create a Dictionary kind of a structure or a JSON format.
+- After the data is created we can insert the data in bulk or just in a single set.
+- To insert one record use 'insert_one()'.
+- Remember if database and collection is already available then MongoDB insert the data inside it.
+- Every record we are going to insert by default MongoDB will create an unique id and attach it with the data object.
+-  To insert multiple records in one go we can make a list of the records and then pass that list with 'insert_many()'.
+
+
+Code:
+
+# creating database and collection
+collection = dataBase["collection_name"]
+
+# creating one record
+record = {
+    key1 : value1,
+    key2 : value2
+}
+
+# creating multiple records
+list_of_records = [
+    {
+        key1 : value1,
+        key2 : value2
+    },
+    {
+        key3 : value3,
+        key4 : value4
+    },
+    {
+        key5 : value5,
+        key6 : value6
+    }
+]
+
+# inserting the record
+collection.insert_one(record)
+
+# inserting multiple records
+collection.insert_many(list_of_records)
+
+
+
+- Now to search one single data we use 'find_one()'
+- We can use the for loop with 'find()' to find all the records.
+- We can also use condition to find a record. For this we need to create the filter with the help of key value pair and pass it in the 'find()'.
+
+
+Code:
+
+# finding one record
+collection.find_one()
+
+# finding all the records
+for i in collection.find():
+    print(i)
+
+# finding using a condition
+filter = {key : value}
+for i in collection.find(filter):
+    print(i)
+
+
+
+
+- Now suppose we want to find out all the records where the id is greater than 1 in a collection named 'faculties'. So in MongoDB for this there is a special notation for this named '$gt'.
+- There are similar notations for 'less than', 'equal to'.
+
+
+# using special notation
+for i in faculties.find({'_id':{'$gt':'1'}}):
+    print(i)
+
+or
+
+filter = {'_id':{'$gt':'1'}}
+results = faculties.find(filter)
+for data in results:
+    print(data)
+
+
+
+
+
+
+- For delete we use the same logic as insert but here the methods will be 'delete_one()' and 'delete_many()'
+- To delete all the documents present in the collection we can just pass an empty dictionary.
+
+-Syntax is:
+# for single deletation
+delete_query = {key:value}
+collection.delete_one(delete_query)
+
+# deletation based on condition
+filter = {'_id':{'$gte':'1'}}       # here $gte is greater than or equal to
+collection.delete_many(filter)
+
+# to delete all the documents of a collection
+collection.delete_many({})
+
+
+
+
+
+- To update the records we use 'update_one()' and 'update_many()'.
+
+
+Code:
+# for single update
+present_data = {'courseOffered': 'Machine Learning with Deployment'}
+new_data = {"$set":{'courseOffered': 'ML and DL with Deployment'}}
+
+products.update_one(present_data, new_data)
+
+
+# for multiple updates
+present_data = {'companyName': 'iNeuron'}
+new_data = {"$set": {'companyName': 'iNeuron.ai'}}       # $set is used to replace the value of a field to the specified value
+
+products.update_many(present_data, new_data)
+
+
+
+
+
+- To drop the entire collection we use 'drop()'
+
+- Syntax is:
+collection.drop()
+
+
+
+-- Steps:
+- 1st connection is established.
+- 2nd create a dataBase.
+- 3rd inside that dataBase create a collection.
+- 4th insert a record inside the collection to make the dataBase visible.
